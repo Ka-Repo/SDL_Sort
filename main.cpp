@@ -1,8 +1,8 @@
-#include "graphic.h";
+#include "Graphic.h";
 
 int main(int argc, char* args[])
 {
-	graphic screen;
+	Graphic screen;
 	while (1);
 	return 0;
 }

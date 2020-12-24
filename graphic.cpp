@@ -1,9 +1,9 @@
-#include "graphic.h"
+#include "Graphic.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-graphic::graphic()
+Graphic::Graphic()
 {
 	window = NULL;
 	screenSurface = NULL;
@@ -23,13 +23,13 @@ graphic::graphic()
 		{
 			screenSurface = SDL_GetWindowSurface(window);
 
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
 			SDL_UpdateWindowSurface(window);
 		}
 	}
 }
 
-graphic::~graphic()
+Graphic::~Graphic()
 {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
