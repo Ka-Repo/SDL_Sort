@@ -1,8 +1,13 @@
 # SDL_Sort
+Standard sort visualization using templates and sdl2.
+
+<br>
 
 ## Styleguide
 
 This project follows the C++ Core Guidelines hosted at https://github.com/isocpp/CppCoreGuidelines.
+
+<br>
 
 ## Getting started
 
