@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="graphic.cpp">
+    <ClCompile Include="Graphic.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="graphic.h">
+    <ClInclude Include="Graphic.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

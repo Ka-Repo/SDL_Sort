@@ -3,6 +3,8 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+Graphic* Graphic::instance = nullptr;
+
 Graphic::Graphic()
 {
 	window = NULL;
@@ -33,4 +35,16 @@ Graphic::~Graphic()
 {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+
+	instance = nullptr;
+}
+
+Graphic* Graphic::getInstance()
+{
+	if (!instance)
+	{
+		instance = new Graphic();
+	}
+
+	return instance;
 }
