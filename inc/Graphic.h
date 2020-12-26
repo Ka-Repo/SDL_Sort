@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <vector>
 
 /*
 * Singleton implementation of a graphic window using the SDL2 library from https://www.libsdl.org/.
@@ -15,4 +16,5 @@ private:
 	~Graphic();
 public:
 	static Graphic* getInstance();
+	void displayData(std::vector<int>);
 };

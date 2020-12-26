@@ -24,11 +24,8 @@ Graphic::Graphic()
 		else
 		{
 			screenSurface = SDL_GetWindowSurface(window);
-			SDL_Rect controlBar = { 0, 0, SCREEN_WIDTH, 50 };
 
 			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
-			SDL_FillRect(screenSurface, &controlBar, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-
 			SDL_UpdateWindowSurface(window);
 		}
 	}
@@ -50,4 +47,17 @@ Graphic* Graphic::getInstance()
 	}
 
 	return instance;
+}
+
+void Graphic::displayData(std::vector<int> data)
+{
+	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+
+	for (std::size_t i = 0; i < data.size(); ++i)
+	{
+		SDL_Rect rect = { i, 0, 5, data[i] };
+		SDL_FillRect(screenSurface, &rect, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+	}
+
+	SDL_UpdateWindowSurface(window);
 }
