@@ -24,8 +24,11 @@ Graphic::Graphic()
 		else
 		{
 			screenSurface = SDL_GetWindowSurface(window);
+			SDL_Rect controlBar = { 0, 0, SCREEN_WIDTH, 50 };
 
 			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+			SDL_FillRect(screenSurface, &controlBar, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+
 			SDL_UpdateWindowSurface(window);
 		}
 	}

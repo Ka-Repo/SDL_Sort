@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /*
-* Singleton implementation of graphic window.
+* Singleton implementation of a graphic window using the SDL2 library from https://www.libsdl.org/.
 */
 class Graphic {
 private:
