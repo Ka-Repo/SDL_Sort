@@ -47,7 +47,7 @@ int main(int argc, char* args[])
                     break;
                 case SDLK_s:
                     // Standard Sort
-                    std::sort(data.begin(), data.end(), std::less<int>());
+                    std::sort(data.begin(), data.end(), std::greater<int>());
                     screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
                     break;
                 case SDLK_m:

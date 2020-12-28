@@ -62,12 +62,13 @@ Graphic* Graphic::getInstance()
 
 void Graphic::displayData(std::vector<int> data, std::string text = "", SDL_Color textColor = { 0, 0, 0 })
 {
-	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0x00, 0x00));
+	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
 	for (std::size_t i = 0; i < data.size(); ++i)
 	{
-		SDL_Rect rect = { i, 0, 5, data[i] };
-		SDL_FillRect(screenSurface, &rect, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+		SDL_Rect rect = { i, SCREEN_HEIGHT - data[i], 1, data[i] };
+
+		SDL_FillRect(screenSurface, &rect, SDL_MapRGB(screenSurface->format, 0xFF, 0x00, 0xFF));
 	}
 
 	loadText(text, textColor);
