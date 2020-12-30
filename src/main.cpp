@@ -3,6 +3,7 @@
 #include <random>
 #include <iostream>
 #include <sstream>
+#include <chrono>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -13,19 +14,24 @@ int main(int argc, char* args[])
     SDL_Event event;
     bool quit = false;
     std::stringstream time;
+    int operations = 0;
+
+    using clock_t = std::chrono::steady_clock;
+    std::chrono::nanoseconds timeElapsed = std::chrono::nanoseconds(0);
 
 	std::uniform_int_distribution<int> distribution{ 0, SCREEN_HEIGHT };
 	std::mt19937 generator{ std::random_device{}() };
 	std::vector<int> data(SCREEN_WIDTH);
+    std::vector<int> initialData;
 
 	auto generate = [&distribution, &generator]() {
 		return distribution(generator);
 	};
 
 	std::generate(data.begin(), data.end(), generate);
+    initialData = data;
  
-    time.str("");
-    time << "Time elapsed : " << "      " << "Operations used :";
+    time << "Time elapsed : " << timeElapsed.count() << "ns      " << "Operations used : " << operations;
 
     screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
 
@@ -39,33 +45,49 @@ int main(int argc, char* args[])
             }
             else if (event.type == SDL_KEYDOWN)
             {
+                clock_t::time_point start = clock_t::now();
+                clock_t::time_point end;
+
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_q:
                     // Quicksort
-                    screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
                     break;
                 case SDLK_s:
                     // Standard Sort
                     std::sort(data.begin(), data.end(), std::greater<int>());
-                    screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
                     break;
                 case SDLK_m:
 					// Merge Sort
-                    screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
                     break;
                 case SDLK_r:
                     // Reset
-                    screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
+                    data = initialData;
                     break;
                 case SDLK_g:
                     // Generate new data
                     std::generate(data.begin(), data.end(), generate);
-                    screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
+                    initialData = data;
                     break;
                 default:
                     break;
                 }
+
+                end = clock_t::now();
+
+				if (event.key.keysym.sym != SDLK_g && event.key.keysym.sym != SDLK_r)
+                {
+                    timeElapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                }
+                else
+                {
+                    timeElapsed = std::chrono::nanoseconds(0);
+                    operations = 0;
+                }
+
+                time.str("");
+                time << "Time elapsed : " << timeElapsed.count() << "ns      " << "Operations used : " << operations;
+                screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
             }
         }
     }
