@@ -18,12 +18,18 @@
     <ClInclude Include="inc\Graphic.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Algorithms.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphic.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithms.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

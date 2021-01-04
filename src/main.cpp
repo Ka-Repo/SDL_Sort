@@ -1,4 +1,5 @@
 #include "Graphic.h"
+#include "Algorithms.cpp"
 
 #include <random>
 #include <iostream>
@@ -12,8 +13,8 @@ int main(int argc, char* args[])
 {
 	Graphic* screen = Graphic::getInstance();
     SDL_Event event;
-    bool quit = false;
     std::stringstream time;
+    bool quit = false;
     int operations = 0;
 
     using clock_t = std::chrono::steady_clock;
@@ -59,6 +60,7 @@ int main(int argc, char* args[])
                     break;
                 case SDLK_m:
 					// Merge Sort
+                    Algorithms::mergesort(data.begin(), data.end(), std::greater<int>());
                     break;
                 case SDLK_r:
                     // Reset
@@ -68,6 +70,10 @@ int main(int argc, char* args[])
                     // Generate new data
                     std::generate(data.begin(), data.end(), generate);
                     initialData = data;
+                    break;
+                case SDLK_z:
+                    // Selection Sort
+                    Algorithms::selectionsort(data.begin(), data.end(), std::greater<int>());
                     break;
                 default:
                     break;
