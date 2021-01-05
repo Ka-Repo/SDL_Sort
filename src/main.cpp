@@ -18,7 +18,7 @@ int main(int argc, char* args[])
     int operations = 0;
 
     using clock_t = std::chrono::steady_clock;
-    std::chrono::nanoseconds timeElapsed = std::chrono::nanoseconds(0);
+    std::chrono::microseconds timeElapsed = std::chrono::microseconds(0);
 
 	std::uniform_int_distribution<int> distribution{ 0, SCREEN_HEIGHT };
 	std::mt19937 generator{ std::random_device{}() };
@@ -49,6 +49,8 @@ int main(int argc, char* args[])
                 clock_t::time_point start = clock_t::now();
                 clock_t::time_point end;
 
+                int count = 0;
+
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_q:
@@ -60,7 +62,15 @@ int main(int argc, char* args[])
                     break;
                 case SDLK_m:
 					// Merge Sort
+                    for (auto data : data) {
+                        std::cout << "Eintrag Nr. " << count << "mit dem Wert: " << data << "\n";
+                        ++count;
+                    }
                     Algorithms::mergesort(data.begin(), data.end(), std::greater<int>());
+                    for (auto data : data) {
+                        std::cout << "Eintrag Nr. " << count << "mit dem Wert: " << data << "\n";
+                        ++count;
+                    }
                     break;
                 case SDLK_r:
                     // Reset
@@ -73,7 +83,7 @@ int main(int argc, char* args[])
                     break;
                 case SDLK_z:
                     // Selection Sort
-                    Algorithms::selectionsort(data.begin(), data.end(), std::greater<int>());
+                    Algorithms::selectionsort(data.begin(), data.end(), std::less<int>());
                     break;
                 default:
                     break;
@@ -83,16 +93,16 @@ int main(int argc, char* args[])
 
 				if (event.key.keysym.sym != SDLK_g && event.key.keysym.sym != SDLK_r)
                 {
-                    timeElapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                    timeElapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
                 }
                 else
                 {
-                    timeElapsed = std::chrono::nanoseconds(0);
+                    timeElapsed = std::chrono::microseconds(0);
                     operations = 0;
                 }
 
                 time.str("");
-                time << "Time elapsed : " << timeElapsed.count() << "ns      " << "Operations used : " << operations;
+                time << "Time elapsed : " << timeElapsed.count() << "us      " << "Operations used : " << operations;
                 screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
             }
         }

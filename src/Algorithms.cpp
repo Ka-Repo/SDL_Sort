@@ -6,85 +6,109 @@
 #include <iterator>
 
 template<typename I, typename O, typename N>
-void merge(I first_l, I last_l, I first_r, I last_r, N pred, O buffer)
+void merge(I begin, I mid, I end, N pred, O buffer)
 {
-    auto start_l = first_l;
-    auto end_l = last_l;
-    auto start_r = first_r;
-    auto end_r = last_r;
+    I begin_l = begin;
+    I end_l = mid;
+    I begin_r = mid;
+    I end_r = end;
 
-    while (start_l != end_l && start_r != end_r) 
+    while (begin_l != end_l && begin_r != end_r)
     {
-        if (*start_l < *start_r)
+        if (*begin_l < *begin_r)
         {
-            buffer->push_back(*start_l);
-            ++start_l;
+            buffer->emplace_back(*begin_l);
+            ++begin_l;
         }
         else 
         {
-            buffer->push_back(*start_r);
-            ++start_r;
+            buffer->emplace_back(*begin_r);
+            ++begin_r;
 		}
     }
 
-    while (start_l != end_l) 
+    while (begin_l != end_l)
     {
-        buffer->push_back(*start_l);
-        ++start_l;
+        buffer->push_back(*begin_l);
+        ++begin_l;
     }
 
-    while (start_r != end_r) 
+    while (begin_r != end_r)
     {
-        buffer->push_back(*start_r);
-        ++start_r;
-    }
-
-    //  TODO: std::copy(buffer->begin(), buffer->end(), first_l);
-    while (first_l != last_r && !buffer->empty())
-    {
-        *first_l = buffer->back();
-        buffer->pop_back();
-        ++first_l;
+        buffer->push_back(*begin_r);
+        ++begin_r;
     }
 }
 
 template<typename I, typename O, typename N>
-void mergesort_helper(I first, I last, O buffer, N pred)
+void mergesort_helper(I begin, I end, O buffer, N pred)
 {
-    auto size = std::distance(first, last);
+    auto size = std::distance(begin, end);
 
     if (size <= 1) return;
 
-    auto mid = std::next(first, size / 2);
+    auto mid = std::next(begin, size / 2);
 
-    mergesort_helper(first, mid, buffer, pred);
-    mergesort_helper(mid + 1, last, buffer, pred);
-    merge(first, mid, mid + 1, last, pred, buffer);
+    mergesort_helper(begin, mid, buffer, pred);
+    mergesort_helper(mid, end, buffer, pred);
+    merge(begin, mid, end, pred, buffer);
+
+    std::move(buffer->begin(), buffer->begin(), begin);
 }
 
 template<typename I, typename N>
-void Algorithms::mergesort(I first, I last, N pred)
+void Algorithms::mergesort(I begin, I end, N pred)
 {
-    auto x = *first;
+    auto x = *begin;
 	std::vector<decltype(x)> buffer;
 
-    mergesort_helper(first, last, &buffer, pred);
+    mergesort_helper(begin, end, &buffer, pred);
 }
 
 template<typename I, typename N>
-void Algorithms::bubblesort(I first, I last, N pred)
+void Algorithms::bubblesort(I begin, I end, N pred)
 {
 }
 
 template<typename I, typename N>
-void Algorithms::quicksort(I first, I last, N pred)
+void Algorithms::quicksort(I begin, I end, N pred)
 {
+}
+
+
+template <typename T>
+void Swap(T& a, T& b)
+{
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
+template <typename I, typename N>
+I Min(I begin, I end, N pred)
+{
+    I min_adr = begin;
+
+    while (begin != end)
+    {
+        if (pred(*begin, *min_adr))
+        {
+            min_adr = begin;
+        }
+        ++begin;
+    }
+
+    return min_adr;
 }
 
 template <typename I, typename N>  
-void Algorithms::selectionsort(I first, I last, N pred)
+void Algorithms::selectionsort(I begin, I end, N pred)
 {
-
+    while (begin != end)
+    {
+        Swap(*begin, *Min(begin, end, pred));
+        ++begin;
+    }
 }
 
 
