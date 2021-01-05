@@ -138,7 +138,7 @@ void Algorithms::quicksort(I begin, I end, N pred)
 }
 
 template<typename I, typename N>
-void Algorithms::bogo_sort(I begin, I end, N pred)
+void Algorithms::bogosort(I begin, I end, N pred)
 {
     std::mt19937 generator{ std::random_device{}() };
 

@@ -85,7 +85,7 @@ int main(int argc, char* args[])
 				case SDLK_4:
 				case SDLK_2:
 					// Bogo sort
-					// Algorithms::bogo_sort(data.begin(), data.end(), std::less<int>());
+					// Algorithms::bogosort(data.begin(), data.end(), std::less<int>());
 					break;
 				default:
 					break;
