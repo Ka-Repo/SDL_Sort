@@ -4,40 +4,32 @@
 #include <vector>
 #include <iostream>
 #include <iterator>
+#include <random>
 
 template<typename I, typename O, typename N>
 void merge(I begin, I mid, I end, N pred, O buffer)
 {
-    I begin_l = begin;
-    I end_l = mid;
-    I begin_r = mid;
-    I end_r = end;
+    I left = begin;
+    I right = mid;
 
-    while (begin_l != end_l && begin_r != end_r)
+    while (left != mid && right != end)
     {
-        if (*begin_l < *begin_r)
+        if (*left < *right)
         {
-            buffer->emplace_back(*begin_l);
-            ++begin_l;
+            buffer.emplace_back(*left);
+            ++left;
         }
         else 
         {
-            buffer->emplace_back(*begin_r);
-            ++begin_r;
+            buffer.emplace_back(*right);
+            ++right;
 		}
     }
 
-    while (begin_l != end_l)
-    {
-        buffer->push_back(*begin_l);
-        ++begin_l;
-    }
+    buffer.insert(buffer.end(), left, mid);
+    buffer.insert(buffer.end(), right, end);
 
-    while (begin_r != end_r)
-    {
-        buffer->push_back(*begin_r);
-        ++begin_r;
-    }
+    std::move(buffer.begin(), buffer.end(), begin);
 }
 
 template<typename I, typename O, typename N>
@@ -52,8 +44,6 @@ void mergesort_helper(I begin, I end, O buffer, N pred)
     mergesort_helper(begin, mid, buffer, pred);
     mergesort_helper(mid, end, buffer, pred);
     merge(begin, mid, end, pred, buffer);
-
-    std::move(buffer->begin(), buffer->begin(), begin);
 }
 
 template<typename I, typename N>
@@ -62,19 +52,8 @@ void Algorithms::mergesort(I begin, I end, N pred)
     auto x = *begin;
 	std::vector<decltype(x)> buffer;
 
-    mergesort_helper(begin, end, &buffer, pred);
+    mergesort_helper(begin, end, buffer, pred);
 }
-
-template<typename I, typename N>
-void Algorithms::bubblesort(I begin, I end, N pred)
-{
-}
-
-template<typename I, typename N>
-void Algorithms::quicksort(I begin, I end, N pred)
-{
-}
-
 
 template <typename T>
 void Swap(T& a, T& b)
@@ -111,4 +90,59 @@ void Algorithms::selectionsort(I begin, I end, N pred)
     }
 }
 
+template<typename I, typename N>
+void Algorithms::bubblesort(I begin, I end, N pred)
+{
+    bool swapped = false;
 
+    do {
+        swapped = false;
+        auto it = begin;
+        while ((it + 1) != end)
+        {
+            if (pred(*it, *(it + 1)))
+            {
+                Swap(*it, *(it + 1));
+                swapped = true;
+            }
+            ++it;
+        }
+    } while (swapped);
+}
+
+template<typename I, typename N>
+I Partition(I begin, I end, N pred)
+{
+    auto pivot = std::prev(end, 1);
+    auto i = begin;
+
+    for (auto j = begin; j != pivot; ++j) {
+        if (pred(*j, *pivot)) {
+            Swap(*i++, *j);
+        }
+    }
+
+    Swap(*i, *pivot);
+    return i;
+}
+
+template<typename I, typename N>
+void Algorithms::quicksort(I begin, I end, N pred)
+{
+    if (std::distance(begin, end) <= 1) return;
+
+    I pivot = Partition(begin, end, pred);
+
+    Algorithms::quicksort(begin, pivot, pred);
+    Algorithms::quicksort(pivot + 1, end, pred);
+}
+
+template<typename I, typename N>
+void Algorithms::bogo_sort(I begin, I end, N pred)
+{
+    std::mt19937 generator{ std::random_device{}() };
+
+    while (!std::is_sorted(begin, end, pred)) {
+        std::shuffle(begin, end, generator);
+    }
+}
