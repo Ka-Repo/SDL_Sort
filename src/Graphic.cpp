@@ -5,7 +5,7 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-Graphic* Graphic::instance = nullptr;
+Graphic* Graphic::instance = NULL;
 
 Graphic::Graphic()
 {
@@ -47,7 +47,7 @@ Graphic::~Graphic()
 	TTF_Quit();
 	SDL_Quit();
 
-	instance = nullptr;
+	instance = NULL;
 }
 
 Graphic* Graphic::getInstance()
