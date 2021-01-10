@@ -60,7 +60,7 @@ Graphic* Graphic::getInstance()
 	return instance;
 }
 
-void Graphic::displayData(std::vector<int> data, std::string text = "", SDL_Color textColor = { 0, 0, 0 })
+void Graphic::displayData(std::vector<int> data, std::string text, SDL_Color textColor)
 {
 	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 

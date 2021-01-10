@@ -1,4 +1,4 @@
-#include "Algorithms.h"
+﻿#include "Algorithms.h"
 
 #include <algorithm>
 #include <vector>
@@ -39,13 +39,23 @@ void mergesort_helper(I begin, I end, O buffer, N pred)
 
     if (size <= 1) return;
 
-    auto mid = std::next(begin, size / 2);
+    I mid = std::next(begin, size / 2);
 
     mergesort_helper(begin, mid, buffer, pred);
     mergesort_helper(mid, end, buffer, pred);
     merge(begin, mid, end, pred, buffer);
 }
 
+//************************************************************
+// Description: Divide the unsorted list into n sublists,    *
+//              each containing one element, this list is    *
+//              considered sorted. Repeatedly merge sublists *
+//              to produce new sorted sublists until there   *
+//              is only one sublist remaining. This will be  *
+//              the sorted list.                             *
+//                                                           *
+// Complexity: Ω(n log n), θ(n log n), O(n log n)            *                                                    
+//************************************************************
 template<typename I, typename N>
 void Algorithms::mergesort(I begin, I end, N pred)
 {
@@ -80,6 +90,15 @@ I Min(I begin, I end, N pred)
     return min_adr;
 }
 
+//************************************************************
+// Description: If U is the unsorted part of a list and S    *
+//              the sorted part. Find the smallest element   *  
+//              in U and swap it with the leftmost element   *
+//              in U and move the boundaries of U one to     *
+//              the right.                                   *
+//                                                           *
+// Complexity: Ω(n^2), θ(n^2), O(n^2)                        *                                                               
+//************************************************************
 template <typename I, typename N>  
 void Algorithms::selectionsort(I begin, I end, N pred)
 {
@@ -90,6 +109,13 @@ void Algorithms::selectionsort(I begin, I end, N pred)
     }
 }
 
+//************************************************************
+// Description: As long as the list is not sorted, step      *
+//              through the list and swap adjacent elements  * 
+//              if they are in wrong order.                  *
+//                                                           *
+// Complexity: Ω(n), θ(n^2), O(n^2)                          *                                                    
+//************************************************************
 template<typename I, typename N>
 void Algorithms::bubblesort(I begin, I end, N pred)
 {
@@ -97,7 +123,7 @@ void Algorithms::bubblesort(I begin, I end, N pred)
 
     do {
         swapped = false;
-        auto it = begin;
+        I it = begin;
         while ((it + 1) != end)
         {
             if (pred(*it, *(it + 1)))
@@ -113,10 +139,10 @@ void Algorithms::bubblesort(I begin, I end, N pred)
 template<typename I, typename N>
 I Partition(I begin, I end, N pred)
 {
-    auto pivot = std::prev(end, 1);
-    auto i = begin;
+    I pivot = std::prev(end, 1);
+    I i = begin;
 
-    for (auto j = begin; j != pivot; ++j) {
+    for (I j = begin; j != pivot; ++j) {
         if (pred(*j, *pivot)) {
             Swap(*i++, *j);
         }
@@ -126,6 +152,15 @@ I Partition(I begin, I end, N pred)
     return i;
 }
 
+//************************************************************
+// Description: Select a pivot element from a list, devide   *
+//              the list in two sublist according to         *
+//              whether they are less or greater than the    *
+//              pivot. Repeat this step for each sublist     *
+//              recursivly.                                  *
+//                                                           *
+// Complexity: Ω(n log n), θ(n log n), O(n^2)                *                                                    
+//************************************************************
 template<typename I, typename N>
 void Algorithms::quicksort(I begin, I end, N pred)
 {
@@ -141,7 +176,10 @@ template<typename I, typename N>
 bool Is_sorted(I begin, I end, N pred)
 {
     I next = begin + 1;
-    while (begin != end && next != end)
+
+    if (begin == end) return true;
+
+    while (next != end)
     {
         if (!pred(*next, *begin)) return false;
         ++begin;
@@ -150,6 +188,12 @@ bool Is_sorted(I begin, I end, N pred)
     return true;
 }
 
+//************************************************************
+// Description: Generate permutations of the input           *
+//              until one turns out sorted.                  *
+//                                                           *
+// Complexity: Ω(n), θ((n+1)!) , O((n+1)!)                   *                                                    
+//************************************************************
 template<typename I, typename N>
 void Algorithms::bogosort(I begin, I end, N pred)
 {
