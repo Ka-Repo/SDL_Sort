@@ -138,11 +138,24 @@ void Algorithms::quicksort(I begin, I end, N pred)
 }
 
 template<typename I, typename N>
+bool Is_sorted(I begin, I end, N pred)
+{
+    I next = begin + 1;
+    while (begin != end && next != end)
+    {
+        if (!pred(*next, *begin)) return false;
+        ++begin;
+        ++next;
+    }
+    return true;
+}
+
+template<typename I, typename N>
 void Algorithms::bogosort(I begin, I end, N pred)
 {
     std::mt19937 generator{ std::random_device{}() };
 
-    while (!std::is_sorted(begin, end, pred)) {
+    while (!Is_sorted(begin, end, pred)) {
         std::shuffle(begin, end, generator);
     }
 }
