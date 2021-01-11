@@ -6,6 +6,7 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 Graphic* Graphic::instance = NULL;
+TTF_Font* font = NULL;
 
 Graphic::Graphic()
 {
@@ -14,20 +15,21 @@ Graphic::Graphic()
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << "\n";
 	}
 	else
 	{
 		window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+
 		if (window == NULL)
 		{
-			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << "\n";
 		}
 		else
 		{
 			if (TTF_Init() == -1)
 			{
-				printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+				std::cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << "\n";
 			}
 
 			screenSurface = SDL_GetWindowSurface(window);
@@ -42,11 +44,11 @@ Graphic::Graphic()
 Graphic::~Graphic()
 {
 	SDL_DestroyWindow(window);
-	// TTF_CloseFont(font);
-	// font = NULL;
+	TTF_CloseFont(font);
 	TTF_Quit();
 	SDL_Quit();
 
+	font = NULL;
 	instance = NULL;
 }
 
@@ -77,19 +79,20 @@ void Graphic::displayData(std::vector<int> data, std::string text, SDL_Color tex
 
 void Graphic::loadText(std::string text, SDL_Color textColor)
 {
-	TTF_Font* font = TTF_OpenFont("fonts/IndieFlower.ttf", 20);
+	font = TTF_OpenFont("fonts/IndieFlower.ttf", 20);
 
 	SDL_Texture* texture = NULL;
 
 	if (font == NULL)
 	{
-		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+		std::cout << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << "\n";
 	}
 
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), textColor);
 
-	if (textSurface == NULL) {
-		printf("Unable to create texture from rendered text: %s\n", SDL_GetError());
+	if (textSurface == NULL) 
+	{
+		std::cout << "Unable to create texture from rendered text: " << SDL_GetError() << "\n";
 	} 
 	else 
 	{ 
