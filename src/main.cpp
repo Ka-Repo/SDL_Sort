@@ -90,7 +90,7 @@ int main(int argc, char* args[])
 
 				end = clock_t::now();
 
-				std::vector<SDL_Keycode> codes = { SDLK_q, SDLK_s, SDLK_m, SDLK_z, SDLK_b, SDLK_4, SDLK_2 };
+				std::vector<SDL_Keycode> codes { SDLK_q, SDLK_s, SDLK_m, SDLK_z, SDLK_b, SDLK_4, SDLK_2 };
 
 				(std::find(codes.begin(), codes.end(), event.key.keysym.sym) != codes.end())
 					? timeElapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start)

@@ -8,7 +8,8 @@
 /*
 * Singleton implementation of a graphic window using the SDL2 library from https://www.libsdl.org/.
 */
-class Graphic {
+class Graphic 
+{
 private:
 	static Graphic* instance;
 	SDL_Window* window;
