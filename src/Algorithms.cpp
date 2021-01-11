@@ -141,11 +141,15 @@ I Partition(I begin, I end, N pred)
 {
     I pivot = std::prev(end, 1);
     I i = begin;
+    I j = begin;
 
-    for (I j = begin; j != pivot; ++j) {
+    while (j != pivot)
+    {
         if (pred(*j, *pivot)) {
-            Swap(*i++, *j);
+            Swap(*i, *j);
+            ++i;
         }
+        ++j;
     }
 
     Swap(*i, *pivot);
