@@ -15,7 +15,6 @@ int main(int argc, char* args[])
 	SDL_Event event;
 	std::stringstream time;
 	bool quit = false;
-	int operations = 0;
 
 	using clock_t = std::chrono::steady_clock;
 	std::chrono::microseconds timeElapsed = std::chrono::microseconds(0);
@@ -32,7 +31,7 @@ int main(int argc, char* args[])
 	std::generate(data.begin(), data.end(), generate);
 	initialData = data;
 
-	time << "Time elapsed : " << timeElapsed.count() << "ns      " << "Operations used : " << operations;
+	time << "Time elapsed : " << timeElapsed.count() << "us";
 
 	screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
 
@@ -48,8 +47,6 @@ int main(int argc, char* args[])
 			{
 				clock_t::time_point start = clock_t::now();
 				clock_t::time_point end;
-
-				int count = 0;
 
 				switch (event.key.keysym.sym)
 				{
@@ -93,18 +90,14 @@ int main(int argc, char* args[])
 
 				end = clock_t::now();
 
-				if (event.key.keysym.sym != SDLK_g && event.key.keysym.sym != SDLK_r)
-				{
-					timeElapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-				}
-				else
-				{
-					timeElapsed = std::chrono::microseconds(0);
-					operations = 0;
-				}
+				std::vector<SDL_Keycode> codes = { SDLK_q, SDLK_s, SDLK_m, SDLK_z, SDLK_b, SDLK_4, SDLK_2 };
+
+				(std::find(codes.begin(), codes.end(), event.key.keysym.sym) != codes.end())
+					? timeElapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start)
+					: timeElapsed = std::chrono::microseconds(0);
 
 				time.str("");
-				time << "Time elapsed : " << timeElapsed.count() << "us      " << "Operations used : " << operations;
+				time << "Time elapsed : " << timeElapsed.count() << "us";
 				screen->displayData(data, time.str().c_str(), { 0, 0, 0, 0 });
 			}
 		}
