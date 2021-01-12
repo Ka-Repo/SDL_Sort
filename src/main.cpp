@@ -1,13 +1,10 @@
 #include "Graphic.h"
-#include "Algorithms.cpp"
+#include "Algorithms.h"
 
 #include <random>
 #include <iostream>
 #include <sstream>
 #include <chrono>
-
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char* args[])
 {

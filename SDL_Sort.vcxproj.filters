@@ -18,7 +18,7 @@
     <ClInclude Include="inc\Graphic.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Algorithms.h">
+    <ClInclude Include="inc\Algorithms.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -27,9 +27,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Algorithms.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
