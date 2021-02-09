@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iterator>
 #include <random>
+#include <type_traits>
 
 class Algorithms
 {
@@ -43,7 +44,7 @@ void merge(I begin, I mid, I end, N pred, O buffer)
 }
 
 template<typename I, typename O, typename N>
-void mergesort_helper(I begin, I end, O buffer, N pred)
+void mergesort_helper(I begin, I end, O &buffer, N pred)
 {
     auto size = std::distance(begin, end);
 
@@ -69,8 +70,9 @@ void mergesort_helper(I begin, I end, O buffer, N pred)
 template<typename I, typename N>
 void Algorithms::mergesort(I begin, I end, N pred)
 {
-    auto x = *begin;
-    std::vector<decltype(x)> buffer;
+    using type = std::decay_t<decltype(*begin)>;
+    std::vector<type> buffer;
+    buffer.reserve(std::distance(begin, end));
 
     mergesort_helper(begin, end, buffer, pred);
 }

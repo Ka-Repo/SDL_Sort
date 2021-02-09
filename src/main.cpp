@@ -39,7 +39,7 @@ int main(int argc, char* args[])
 			if (event.type == SDL_QUIT)
 			{
 				quit = true;
-			}
+			} 
 			else if (event.type == SDL_KEYDOWN)
 			{
 				clock_t::time_point start = clock_t::now();
